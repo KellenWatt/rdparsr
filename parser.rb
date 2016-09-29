@@ -29,8 +29,8 @@ class Parser
     if post.find {|s| s =~ /^#{pre}/}
       issues = post.select {|s| s =~ /^#{pre}/}
       others = post - issues
-    
-       
+      #TODO: eliminate left-recursion
+        
     else
       @rules[pre] = post
     end
@@ -55,6 +55,15 @@ class Parser
       error
     else
       return true
+    end
+  end
+
+  def method_missing(method_name, *args)
+    name = method_name.to_s
+    if name =~ /^is_[A-Z]+$/
+      #TODO: Define the is_<X> method
+    else
+      super(method_name, args)
     end
   end
 end
